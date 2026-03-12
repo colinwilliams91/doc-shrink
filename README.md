@@ -1,28 +1,91 @@
-# Doc-Shrink
+# Doc Shrink
 
-## Logo
-![[doc_shrink_logo_06.png]]
+Doc Shrink is a web-first resume optimization tool for shrinking existing software-engineering resumes. The MVP accepts DOCX input, inspects document structure, and is being built toward a pipeline that condenses wording, tightens layout, and exports recruiter-ready output.
 
-## Document Editor Software
-_this is what we will extend?_
-- _First:_ WebApp
-- `LibreOffice` Extension?
-	- open source... so... *how can I use their internal APIs...?*
-- Desktop App?
-    - _First:_ Electron App?
-- CLI
+## Current Status
 
-## About
-> Doc-Shrink is a tool designed to optimize and reduce the size of documentation files. It helps in minimizing the storage space required for documentation while maintaining the essential information.
+Implementation has started with Epic 1 foundations:
 
-***Features***:
-- use a model trained on thousands (maybe more) of current job descriptions for SWE (software engineers; possibly extended to other professions in the future)
-  - HuggingFace Transformers? (or some other open-source model architecture)
-    - Alternatively "Resume" Datasets on HuggingFace
-  - with this model the technology will analyze the contents of the end user's resume and make the bullet points hyper succinct and concise, with a high accuracy regarding word omission based on popular trends in tech and skills that are considered high-value.
-- the ability to re-arrange the document file's contents (the text, tables, paragraphs, ordered/unordered lists, etc.) visually to optimize document real estate.
-- reducing the word count of the resume to between 350 - 550, aiming for the lower part of the range without sacrificing quality and reasonable legibility.
-- creating a strong visual "flow" of the resume by understanding recruiter trends such as reading diagonally and scanning (it has been reported that recruiters read resumes in under 30 seconds)
-- *more to come!*...
+- FastAPI backend scaffold
+- React + TailwindCSS frontend scaffold
+- `Spire.Doc.Free` document-engine boundary
+- DOCX upload + inspection proof path
+- API health endpoint exposing document-engine readiness
 
-> The technology will not be centered around creating or modifying end user's resume's actual content--just abbreviating, shortening, moving visual elements around, etc; to maximize the efficient usage of space.
+The current app does not condense resumes yet. It verifies the highest-risk integration first: loading DOCX files, inspecting free-tier constraints, and proving roundtrip support before deeper rewrite work begins.
+
+## Repository Layout
+
+```text
+backend/
+  app/
+    api/
+    services/
+frontend/
+  src/
+```
+
+## Approved MVP Stack
+
+- Backend: Python + FastAPI
+- Frontend: React + TailwindCSS + Vite
+- LLM abstraction: LiteLLM
+- Document engine: `Spire.Doc.Free`
+- Default no-cost provider path: Hugging Face
+- Optional provider mode: bring your own key
+
+## Local Development
+
+### Backend
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e .
+uvicorn app.main:app --reload
+```
+
+The backend runs at `http://localhost:8000` and exposes:
+
+- `GET /api/health`
+- `POST /api/process/inspect`
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173`.
+
+If your backend is not on the default port, set `VITE_API_BASE_URL`.
+
+## Current Proof Flow
+
+The first implemented user flow is:
+
+1. Upload a DOCX resume
+2. Choose provider mode and whether to request PDF verification
+3. Run inspection
+4. View counts for words, paragraphs, tables, pages, and Spire verification state
+
+## Spire.Doc.Free Constraints
+
+The implementation currently treats these as explicit product constraints:
+
+- 500 paragraph read/write limit
+- 25 table read/write limit
+- PDF export capped to the first 3 pages in the free tier
+
+Those constraints are surfaced during inspection so they can shape Phase 1 behavior before condensation and layout work ship.
+
+## Next Planned Implementation Work
+
+1. Internal resume model and DOCX parsing normalization
+2. LiteLLM provider adapter
+3. Prompt contract and guarded condensation pipeline
+4. Deterministic layout compression
+5. Artifact generation and optional PDF export

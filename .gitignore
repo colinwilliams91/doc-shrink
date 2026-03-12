@@ -1,0 +1,27 @@
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+backend/.venv/
+backend/.coverage
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Local env
+.env
+.env.*
+backend/.env
+frontend/.env
+
+# Build artifacts
+dist/
+coverage/
+tmp/

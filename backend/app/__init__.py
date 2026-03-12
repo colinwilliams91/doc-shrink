@@ -1,0 +1,1 @@
+"""Doc Shrink backend package."""

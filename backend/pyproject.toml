@@ -1,0 +1,26 @@
+[project]
+name = "doc-shrink-backend"
+version = "0.1.0"
+description = "FastAPI backend for the Doc Shrink MVP"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "pydantic-settings>=2.6.0,<3.0.0",
+  "python-multipart>=0.0.20,<0.1.0",
+  "spire-doc-free>=12.12.0",
+  "uvicorn[standard]>=0.32.0,<1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28.0,<1.0.0",
+  "pytest>=8.3.0,<9.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
