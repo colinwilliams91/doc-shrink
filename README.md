@@ -38,7 +38,7 @@ frontend/
 
 ### Backend
 
-```bash
+```ps1
 cd backend
 python -m venv .venv
 .venv\Scripts\activate
