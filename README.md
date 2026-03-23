@@ -1,5 +1,7 @@
 # Doc Shrink
 
+![doc shrink logo](doc_shrink_logo_06.png)
+
 Doc Shrink is a web-first resume optimization tool for shrinking existing software-engineering resumes. The MVP accepts DOCX input, inspects document structure, and is being built toward a pipeline that condenses wording, tightens layout, and exports recruiter-ready output.
 
 ## Current Status
